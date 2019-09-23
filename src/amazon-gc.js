@@ -3,20 +3,21 @@ const axios = require('axios')
 const aws4 = require('aws4')
 
 const currencyCode = 'USD'
-const partnerId = 'testId'
-const accessKeyId = 'testAccessKeyId'
-const secretKey = 'testSecretKey'
+const partnerId = 'test'
+const accessKey = 'test'
+const secretKey = 'test'
 const endpoint = {
     host: 'agcod-v2-gamma.amazon.com',
     region: 'us-east-1',
 }
 
-
 const createGiftCard = async (amount) => {
     const sequentialId = getNewId()
     const requestBody = getCreateGiftCardRequestBody(partnerId, sequentialId, amount, currencyCode)
     const signedRequest = await _getSignedRequest(requestBody)
-    return await _doRequest(signedRequest)
+    const result = await _doRequest(signedRequest)
+    console.log(result)
+    return result
 }
 
 const _getSignedRequest = async (requestBody) => {
@@ -36,7 +37,7 @@ const _getSignedRequest = async (requestBody) => {
         securityOptions: 'SSL_OP_NO_SSLv3',
     }
     const credentials = {
-        accessKeyId: accessKeyId,
+        accessKeyId: accessKey,
         secretAccessKey: secretKey,
     }
     return aws4.sign(opts, credentials)
@@ -53,7 +54,7 @@ const _doRequest = async (signedRequest) => {
         const response = await axios(params)
         return response.data
     } catch (error) {
-        console.log(error)
+        throw new Error(error.message)
     }
 }
 
