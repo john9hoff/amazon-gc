@@ -1,11 +1,5 @@
-const {
-    getNewId,
-    createGiftCardRequest,
-} = require('./util/helpers')
-const {
-    requestGiftCard,
-    getSignedRequest,
-} = require('./util/requests')
+const {getNewId, createGiftCardRequest} = require('./util/helpers')
+const {requestGiftCard, getSignedRequest} = require('./util/requests')
 
 async function createGiftCard(request) {
     try {

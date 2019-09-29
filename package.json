@@ -29,6 +29,7 @@
     "bignumber.js": "^9.0.0"
   },
   "dependencies": {
-    "bignumber": "^1.1.0"
+    "bignumber": "^1.1.0",
+    "np": "^5.1.0"
   }
 }
