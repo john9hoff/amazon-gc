@@ -4,7 +4,7 @@
   "description": "Connect to Amazon incentives API to create gift cards",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"no tests specified\""
   },
   "repository": {
     "type": "git",
