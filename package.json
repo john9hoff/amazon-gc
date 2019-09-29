@@ -1,6 +1,6 @@
 {
   "name": "amazon-gc",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Connect to Amazon incentives API to create gift cards",
   "main": "index.js",
   "scripts": {
