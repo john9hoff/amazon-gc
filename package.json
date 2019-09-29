@@ -1,7 +1,7 @@
 {
   "name": "amazon-gc",
-  "version": "1.0.0",
-  "description": "Connect to Amazon incentives gift card API",
+  "version": "1.0.1",
+  "description": "Connect to Amazon incentives API to create gift cards",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
