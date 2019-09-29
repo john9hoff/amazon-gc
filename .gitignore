@@ -59,3 +59,9 @@ typings/
 
 # next.js build output
 .next
+
+# IDE
+.idea
+
+# Local testing
+src/Test.js
