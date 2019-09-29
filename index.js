@@ -1,5 +1,5 @@
-const {getNewId, createGiftCardRequest} = require('./util/helpers')
-const {requestGiftCard, getSignedRequest} = require('./util/requests')
+const {getNewId, createGiftCardRequest} = require('./src/util/helpers')
+const {requestGiftCard, getSignedRequest} = require('./src/util/requests')
 
 async function createGiftCard(request) {
     try {
@@ -11,7 +11,6 @@ async function createGiftCard(request) {
         throw new Error(e.message)
     }
 }
-
 
 module.exports = {
     createGiftCard
