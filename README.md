@@ -17,10 +17,8 @@ const request = {
     partnerId: 'yourPartnerId',
     accessKey: 'yourAccessKey',
     secretKey: 'yourSecretKey',
-    endpoint: {
-        host: 'agcod-v2-gamma.amazon.com',
-        region: 'us-east-1',
-    }
+    environment: 'sandbox',
+    endpoint: 'NA',
 }
 
 async function runSample() {
@@ -36,7 +34,4 @@ runSample().catch(console.error)
 - https://www.npmjs.com/package/agcod
 
 ## Problems
-* If you've found an bug/issue, please [file it on GitHub](https://github.com/john9hoff/amazon-gc/issues).
-
-## Contributions
-* We love contributions!
+* If you find an issue or bug, please [file it on GitHub](https://github.com/john9hoff/amazon-gc/issues).
