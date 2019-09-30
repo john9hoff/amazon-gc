@@ -1,11 +1,13 @@
 const axios = require('axios')
 const aws4 = require('aws4')
+const {endpoints} = require('./constants')
 
-const getSignedRequest = (signBody, endpoint, accessKey, secretKey) => {
+const getSignedRequest = (signBody, endpoint, environment, accessKey, secretKey) => {
+    const selectedEndpoint = endpoints.find(obj => obj.location === endpoint && obj.environment === environment)
     const action = 'CreateGiftCard'
     const opts = {
-        region: endpoint.region,
-        host: endpoint.host,
+        region: selectedEndpoint.region,
+        host: selectedEndpoint.host,
         path: `/${action}`,
         body: JSON.stringify(signBody),
         service: 'AGCODService',
