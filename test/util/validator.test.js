@@ -1,7 +1,7 @@
 const { validateInputJson } = require('../../src/util/validator')
 
-test('validateInputJson', () => {
-  const goodRequest = {
+describe('validateInputJson', () => {
+  const request = {
     amount: 20,
     currencyCode: 'USD',
     partnerId: 'yourPartnerId',
@@ -12,43 +12,59 @@ test('validateInputJson', () => {
   }
 
   const stringFields = [ 'currencyCode', 'partnerId', 'accessKey', 'secretKey' ]
-  const enumFields = [ 'environment', 'endpoint' ]
-  const badStrings = [ 35, [], '' ]
-  const goodEnums = {
+  
+  const enums = {
     environment: [ 'sandbox', 'production' ],
     endpoint: [ 'NA', 'EU', 'FE' ]
   }
 
-  expect(() => validateInputJson(goodRequest)).not.toThrowError()
-  expect(() => validateInputJson(null)).toThrowError('JSON cannot be null')
-
-  expect(() => validateInputJson({ ...goodRequest, amount: '20' })).not.toThrowError()
-  expect(() => validateInputJson({ ...goodRequest, amount: 999999 })).not.toThrowError()
-  
-  expect(() => validateInputJson({ ...goodRequest, amount: 0 })).toThrowError()
-  expect(() => validateInputJson({ ...goodRequest, amount: '0' })).toThrowError()
-  expect(() => validateInputJson({ ...goodRequest, amount: -20 })).toThrowError()
-  expect(() => validateInputJson({ ...goodRequest, amount: '-20' })).toThrowError()
-  expect(() => validateInputJson({ ...goodRequest, amount: '' })).toThrowError()
-
-  stringFields.forEach(field => {
-    expect(() => validateInputJson({ ...goodRequest, [field]: '35' })).not.toThrowError()
-
-    badStrings.forEach(badString => expect(() => validateInputJson({ ...goodRequest, [field]: badString })).toThrowError())
+  test('Good request', () => {
+    expect(() => validateInputJson(request)).not.toThrowError()
   })
 
-  enumFields.forEach(field => {
-    const values = goodEnums[field]
+  test('Null JSON throws error', () => {
+    expect(() => validateInputJson(null)).toThrowError()
+  })
 
-    values.forEach(value => {
-      expect(() => validateInputJson({ ...goodRequest, [field]: value })).not.toThrowError()
+  test('Invalid amount throws error', () => {
+    const badAmounts = [ 0, '0', -20, '-20', '' ]
 
-      expect(() => validateInputJson({ ...goodRequest, [field]: ` ${value} ` })).toThrowError()
-      expect(() => validateInputJson({ ...goodRequest, [field]: `${value} ` })).toThrowError()
-      expect(() => validateInputJson({ ...goodRequest, [field]: ` ${value}` })).toThrowError()
-      expect(() => validateInputJson({ ...goodRequest, [field]: (value === value.toLowerCase() ? value.toUpperCase() : value.toLowerCase()) })).toThrowError()
+    badAmounts.forEach(amount => expect(() => validateInputJson({ ...request, amount })).toThrowError())
+  })
+
+  test('Valid strings', () => {
+    const goodStrings = [ '35', 'yes', '-another' ]
+
+    stringFields.forEach(field => {
+      goodStrings.forEach(string => expect(() => validateInputJson({ ...request, [field]: string })).not.toThrowError())
     })
+  })
 
-    expect(() => validateInputJson({ ...goodRequest, [field]: values.join('') })).toThrowError()
+  test('Non-string value throws error', () => {
+    const badStrings = [ 35, [], '' ]
+
+    stringFields.forEach(field => badStrings.forEach(badString => expect(() => validateInputJson({ ...request, [field]: badString })).toThrowError()))
+  })
+
+  test('Valid enums', () => {
+    for(let field in enums) {
+      enums[field].forEach(value => expect(() => validateInputJson({ ...request, [field]: value })).not.toThrowError())
+    }
+  })
+
+  test('Invalid enum throws error', () => {
+    for(let field in enums) {
+      const values = enums[field]
+  
+      values.forEach(value => {
+        expect(() => validateInputJson({ ...request, [field]: ` ${value} ` })).toThrowError()
+        expect(() => validateInputJson({ ...request, [field]: `${value} ` })).toThrowError()
+        expect(() => validateInputJson({ ...request, [field]: ` ${value}` })).toThrowError()
+        expect(() => validateInputJson({ ...request, [field]: (value === value.toLowerCase() ? value.toUpperCase() : value.toLowerCase()) })).toThrowError()
+      })
+  
+      expect(() => validateInputJson({ ...request, [field]: values.join('') })).toThrowError()
+    }
   })
 })
+
