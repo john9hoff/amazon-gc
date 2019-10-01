@@ -15,12 +15,11 @@ test('createGiftCardRequest', () => {
     expect(result.value.amount).toBe(20)
 })
 
-test('getEndpoint', () => {
-    const endpoint = 'EU'
-    const environment = 'production'
-    const result = getEndpoint(endpoint, endpoints, environment)
-    expect(result.location).toBe('EU')
-    expect(result.environment).toBe('production')
-    expect(result.host).toBe('agcod-v2-eu.amazon.com')
-    expect(result.region).toBe('eu-west-1')
+endpoints.forEach((endpoint) => {
+    const { location, environment } = endpoint
+
+    test(`getEndpoint returns correct result for location: ${location} and environment: ${environment}`, () => {
+        const result = getEndpoint(location, endpoints, environment)
+        expect(result).toEqual(endpoint)
+    })
 })
