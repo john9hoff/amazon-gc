@@ -4,7 +4,7 @@
   "description": "Connect to Amazon incentives API to create gift cards",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"no tests specified\""
+    "test": "jest --coverage"
   },
   "repository": {
     "type": "git",
@@ -25,7 +25,9 @@
   },
   "homepage": "https://github.com/john9hoff/amazon-gc#readme",
   "devDependencies": {
-    "np": "^5.1.0"
+    "np": "^5.1.0",
+    "jest": "^24.9.0",
+    "@types/jest": "^24.0.18"
   },
   "dependencies": {
     "aws4": "^1.8.0",

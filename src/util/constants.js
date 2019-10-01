@@ -7,7 +7,7 @@ const endpoints = [
     },
     {
         location: 'NA',
-        environment: 'prod',
+        environment: 'production',
         host: 'agcod-v2.amazon.com',
         region: 'us-east-1',
     },
@@ -19,7 +19,7 @@ const endpoints = [
     },
     {
         location: 'EU',
-        environment: 'prod',
+        environment: 'production',
         host: 'agcod-v2-eu.amazon.com',
         region: 'eu-west-1',
     },
@@ -31,7 +31,7 @@ const endpoints = [
     },
     {
         location: 'FE',
-        environment: 'prod',
+        environment: 'production',
         host: 'agcod-v2-fe.amazon.com',
         region: 'us-west-2',
     },
