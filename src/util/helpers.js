@@ -1,25 +1,23 @@
-const BigNumber = require('bignumber.js')
+const shortid = require('shortid')
 
-const roundAmount = (amount) => Math.round(amount * 100) / 100
+const createGiftCardRequest = (request) => {
+    const {partnerId, amount, currencyCode} = request
 
-const getNewId = () => {
-    const hrTime = process.hrtime()
-    return new BigNumber(hrTime[0]).times('1e9').plus(hrTime[1]).toString(36)
-}
-
-const createGiftCardRequest = (sequentialId, partnerId, amount, currencyCode) => {
     return {
-        creationRequestId: `${partnerId}${sequentialId}`,
+        creationRequestId: `${partnerId}${shortid.generate()}`,
         partnerId,
         value: {
-            amount: roundAmount(amount),
+            amount,
             currencyCode,
         },
     }
 }
 
+const getEndpoint = (endpoint, endpoints, environment) => {
+    return endpoints.find(obj => obj.location === endpoint && obj.environment === environment)
+}
+
 module.exports = {
-    roundAmount,
-    getNewId,
     createGiftCardRequest,
+    getEndpoint,
 }

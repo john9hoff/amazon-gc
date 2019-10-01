@@ -3,8 +3,8 @@
 to [create gift cards on demand](http://s3.amazonaws.com/AGCOD/tech_spec/AGCODTechSpec_WC_Simplified_EN.pdf).
 
 ## Install
-```sh
-$ npm install amazon-gc
+```
+npm install amazon-gc
 ```
 
 ## Usage

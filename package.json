@@ -15,6 +15,7 @@
     "amazon",
     "gift",
     "card",
+    "code",
     "agcod"
   ],
   "author": "John Hoff",
@@ -24,12 +25,13 @@
   },
   "homepage": "https://github.com/john9hoff/amazon-gc#readme",
   "devDependencies": {
-    "aws4": "^1.8.0",
-    "axios": "^0.19.0",
-    "bignumber.js": "^9.0.0",
     "np": "^5.1.0"
   },
   "dependencies": {
-    "joi": "^14.3.1"
+    "aws4": "^1.8.0",
+    "axios": "^0.19.0",
+    "joi": "^14.3.1",
+    "shortid": "^2.2.15",
+    "uuid": "^3.3.3"
   }
 }

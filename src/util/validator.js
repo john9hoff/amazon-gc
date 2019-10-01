@@ -19,6 +19,6 @@ module.exports.validateInputJson = (json) => {
 
     const { error } = Joi.validate(json, validator, { abortEarly: false })
     if (error) {
-        throw new Error(`${error.name}: ${JSON.stringify(error.message)}`)
+        throw new Error(`${error.name} - ${JSON.stringify(error.message)}`)
     }
 }

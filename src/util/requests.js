@@ -1,10 +1,13 @@
 const axios = require('axios')
 const aws4 = require('aws4')
-const {endpoints} = require('./constants')
+const { getEndpoint } = require('./helpers')
+const { endpoints } = require('./constants')
 
-const getSignedRequest = (signBody, endpoint, environment, accessKey, secretKey) => {
-    const selectedEndpoint = endpoints.find(obj => obj.location === endpoint && obj.environment === environment)
+const getSignedRequest = (signBody, request) => {
+    const { endpoint, environment, accessKey, secretKey } = request
+    const selectedEndpoint = getEndpoint(endpoint, endpoints, environment)
     const action = 'CreateGiftCard'
+
     const opts = {
         region: selectedEndpoint.region,
         host: selectedEndpoint.host,
@@ -23,6 +26,7 @@ const getSignedRequest = (signBody, endpoint, environment, accessKey, secretKey)
         accessKeyId: accessKey,
         secretAccessKey: secretKey,
     }
+
     return aws4.sign(opts, credentials)
 }
 
@@ -36,8 +40,9 @@ const requestGiftCard = async (signedRequest) => {
         }
         const response = await axios(params)
         return response.data
-    } catch(e) {
-        throw new Error(e)
+    } catch(error) {
+        console.log(error)
+        throw new Error(error)
     }
 }
 
