@@ -11,6 +11,14 @@ test('validateInputJson', () => {
     endpoint: 'NA',
   }
 
+  const stringFields = [ 'currencyCode', 'partnerId', 'accessKey', 'secretKey' ]
+  const enumFields = [ 'environment', 'endpoint' ]
+  const badStrings = [ 35, [], '' ]
+  const goodEnums = {
+    environment: [ 'sandbox', 'production' ],
+    endpoint: [ 'NA', 'EU', 'FE' ]
+  }
+
   expect(() => validateInputJson(goodRequest)).not.toThrowError()
   expect(() => validateInputJson(null)).toThrowError('JSON cannot be null')
 
@@ -23,56 +31,24 @@ test('validateInputJson', () => {
   expect(() => validateInputJson({ ...goodRequest, amount: '-20' })).toThrowError()
   expect(() => validateInputJson({ ...goodRequest, amount: '' })).toThrowError()
 
-  expect(() => validateInputJson({ ...goodRequest, currencyCode: '35' })).not.toThrowError()
+  stringFields.forEach(field => {
+    expect(() => validateInputJson({ ...goodRequest, [field]: '35' })).not.toThrowError()
 
-  expect(() => validateInputJson({ ...goodRequest, currencyCode: 35 })).toThrowError()
-  expect(() => validateInputJson({ ...goodRequest, currencyCode: [] })).toThrowError()
-  expect(() => validateInputJson({ ...goodRequest, currencyCode: '' })).toThrowError()
+    badStrings.forEach(badString => expect(() => validateInputJson({ ...goodRequest, [field]: badString })).toThrowError())
+  })
 
-  expect(() => validateInputJson({ ...goodRequest, partnerId: '35' })).not.toThrowError()
+  enumFields.forEach(field => {
+    const values = goodEnums[field]
 
-  expect(() => validateInputJson({ ...goodRequest, partnerId: 35 })).toThrowError()
-  expect(() => validateInputJson({ ...goodRequest, partnerId: [] })).toThrowError()
-  expect(() => validateInputJson({ ...goodRequest, partnerId: '' })).toThrowError()
-  
-  expect(() => validateInputJson({ ...goodRequest, accessKey: '35' })).not.toThrowError()
+    values.forEach(value => {
+      expect(() => validateInputJson({ ...goodRequest, [field]: value })).not.toThrowError()
 
-  expect(() => validateInputJson({ ...goodRequest, accessKey: 35 })).toThrowError()
-  expect(() => validateInputJson({ ...goodRequest, accessKey: [] })).toThrowError()
-  expect(() => validateInputJson({ ...goodRequest, accessKey: '' })).toThrowError()
+      expect(() => validateInputJson({ ...goodRequest, [field]: ` ${value} ` })).toThrowError()
+      expect(() => validateInputJson({ ...goodRequest, [field]: `${value} ` })).toThrowError()
+      expect(() => validateInputJson({ ...goodRequest, [field]: ` ${value}` })).toThrowError()
+      expect(() => validateInputJson({ ...goodRequest, [field]: (value === value.toLowerCase() ? value.toUpperCase() : value.toLowerCase()) })).toThrowError()
+    })
 
-  expect(() => validateInputJson({ ...goodRequest, secretKey: '35' })).not.toThrowError()
-
-  expect(() => validateInputJson({ ...goodRequest, secretKey: 35 })).toThrowError()
-  expect(() => validateInputJson({ ...goodRequest, secretKey: [] })).toThrowError()
-  expect(() => validateInputJson({ ...goodRequest, secretKey: '' })).toThrowError()
-
-  expect(() => validateInputJson({ ...goodRequest, environment: 'sandbox' })).not.toThrowError()
-  expect(() => validateInputJson({ ...goodRequest, environment: 'production' })).not.toThrowError()
-
-  expect(() => validateInputJson({ ...goodRequest, environment: ' sandbox ' })).toThrowError()
-  expect(() => validateInputJson({ ...goodRequest, environment: 'sandbox ' })).toThrowError()
-  expect(() => validateInputJson({ ...goodRequest, environment: ' sandbox' })).toThrowError()
-  expect(() => validateInputJson({ ...goodRequest, environment: ' production ' })).toThrowError()
-  expect(() => validateInputJson({ ...goodRequest, environment: 'production ' })).toThrowError()
-  expect(() => validateInputJson({ ...goodRequest, environment: ' production' })).toThrowError()
-  expect(() => validateInputJson({ ...goodRequest, environment: 'SANDBOX' })).toThrowError()
-  expect(() => validateInputJson({ ...goodRequest, environment: 'PRODUCTION' })).toThrowError()
-  expect(() => validateInputJson({ ...goodRequest, environment: 'productionsandbox' })).toThrowError()
-
-  expect(() => validateInputJson({ ...goodRequest, endpoint: 'EU' })).not.toThrowError()
-  expect(() => validateInputJson({ ...goodRequest, endpoint: 'FE' })).not.toThrowError()
-
-  expect(() => validateInputJson({ ...goodRequest, endpoint: 'na' })).toThrowError()
-  expect(() => validateInputJson({ ...goodRequest, endpoint: 'eu' })).toThrowError()
-  expect(() => validateInputJson({ ...goodRequest, endpoint: 'fe' })).toThrowError()
-  expect(() => validateInputJson({ ...goodRequest, endpoint: ' na ' })).toThrowError()
-  expect(() => validateInputJson({ ...goodRequest, endpoint: ' eu ' })).toThrowError()
-  expect(() => validateInputJson({ ...goodRequest, endpoint: ' fe ' })).toThrowError()
-  expect(() => validateInputJson({ ...goodRequest, endpoint: ' na' })).toThrowError()
-  expect(() => validateInputJson({ ...goodRequest, endpoint: ' eu' })).toThrowError()
-  expect(() => validateInputJson({ ...goodRequest, endpoint: ' fe' })).toThrowError()
-  expect(() => validateInputJson({ ...goodRequest, endpoint: 'na ' })).toThrowError()
-  expect(() => validateInputJson({ ...goodRequest, endpoint: 'eu ' })).toThrowError()
-  expect(() => validateInputJson({ ...goodRequest, endpoint: 'fe ' })).toThrowError()
+    expect(() => validateInputJson({ ...goodRequest, [field]: values.join('') })).toThrowError()
+  })
 })
