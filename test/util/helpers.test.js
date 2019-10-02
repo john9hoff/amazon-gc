@@ -1,7 +1,6 @@
 const { createGiftCardRequest, getEndpoint } = require('../../src/util/helpers')
 const { endpoints } = require('../../src/util/constants')
 
-
 test('createGiftCardRequest', () => {
     const request = {
         amount: 20,
@@ -15,11 +14,13 @@ test('createGiftCardRequest', () => {
     expect(result.value.amount).toBe(20)
 })
 
-endpoints.forEach((endpoint) => {
-    const { location, environment } = endpoint
+describe('getEndpoint', () => {
+    endpoints.forEach((endpoint) => {
+        const { location, environment } = endpoint
 
-    test(`getEndpoint returns correct result for location: ${location} and environment: ${environment}`, () => {
-        const result = getEndpoint(location, endpoints, environment)
-        expect(result).toEqual(endpoint)
+        test(`getEndpoint returns correct result for location: ${location} and environment: ${environment}`, () => {
+            const result = getEndpoint(location, endpoints, environment)
+            expect(result).toEqual(endpoint)
+        })
     })
 })
